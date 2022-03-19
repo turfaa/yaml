@@ -36,24 +36,18 @@ supported since they're a poor design and are gone in YAML 1.2.
 Installation and usage
 ----------------------
 
-The import path for the package is *gopkg.in/yaml.v3*.
+The import path for the package is *github.com/turfaa/yaml*.
 
 To install it, run:
 
-    go get gopkg.in/yaml.v3
+    go get github.com/turfaa/yaml
 
 API documentation
 -----------------
 
 If opened in a browser, the import path itself leads to the API documentation:
 
-  - [https://gopkg.in/yaml.v3](https://gopkg.in/yaml.v3)
-
-API stability
--------------
-
-The package API for yaml v3 will remain stable as described in [gopkg.in](https://gopkg.in).
-
+  - [https://github.com/turfaa/yaml](https://github.com/turfaa/yaml)
 
 License
 -------
@@ -72,7 +66,7 @@ import (
         "fmt"
         "log"
 
-        "gopkg.in/yaml.v3"
+        "github.com/turfaa/yaml"
 )
 
 var data = `

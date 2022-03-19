@@ -25,8 +25,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/turfaa/yaml"
 	. "gopkg.in/check.v1"
-	"gopkg.in/yaml.v3"
 )
 
 var unmarshalIntTest = 123
@@ -107,8 +107,8 @@ var unmarshalTests = []struct {
 		"fixed: 685_230.15",
 		map[string]float64{"fixed": 685230.15},
 	},
-	//{"sexa: 190:20:30.15", map[string]interface{}{"sexa": 0}}, // Unsupported
-	//{"notanum: .NaN", map[string]interface{}{"notanum": math.NaN()}}, // Equality of NaN fails.
+	// {"sexa: 190:20:30.15", map[string]interface{}{"sexa": 0}}, // Unsupported
+	// {"notanum: .NaN", map[string]interface{}{"notanum": math.NaN()}}, // Equality of NaN fails.
 
 	// Bools are per 1.2 spec.
 	{
@@ -183,7 +183,7 @@ var unmarshalTests = []struct {
 		map[string]int{"decimal": 685230},
 	},
 
-	//{"sexa: 190:20:30", map[string]interface{}{"sexa": 0}}, // Unsupported
+	// {"sexa: 190:20:30", map[string]interface{}{"sexa": 0}}, // Unsupported
 
 	// Nulls from spec
 	{
@@ -802,7 +802,6 @@ var unmarshalTests = []struct {
 			"c": []interface{}{"d", "e"},
 		},
 	},
-
 }
 
 type M map[string]interface{}
@@ -950,14 +949,14 @@ var unmarshalErrorTests = []struct {
 	{"a: 1\nb: 2\nc 2\nd: 3\n", "^yaml: line 3: could not find expected ':'$"},
 	{
 		"a: &a [00,00,00,00,00,00,00,00,00]\n" +
-		"b: &b [*a,*a,*a,*a,*a,*a,*a,*a,*a]\n" +
-		"c: &c [*b,*b,*b,*b,*b,*b,*b,*b,*b]\n" +
-		"d: &d [*c,*c,*c,*c,*c,*c,*c,*c,*c]\n" +
-		"e: &e [*d,*d,*d,*d,*d,*d,*d,*d,*d]\n" +
-		"f: &f [*e,*e,*e,*e,*e,*e,*e,*e,*e]\n" +
-		"g: &g [*f,*f,*f,*f,*f,*f,*f,*f,*f]\n" +
-		"h: &h [*g,*g,*g,*g,*g,*g,*g,*g,*g]\n" +
-		"i: &i [*h,*h,*h,*h,*h,*h,*h,*h,*h]\n",
+			"b: &b [*a,*a,*a,*a,*a,*a,*a,*a,*a]\n" +
+			"c: &c [*b,*b,*b,*b,*b,*b,*b,*b,*b]\n" +
+			"d: &d [*c,*c,*c,*c,*c,*c,*c,*c,*c]\n" +
+			"e: &e [*d,*d,*d,*d,*d,*d,*d,*d,*d]\n" +
+			"f: &f [*e,*e,*e,*e,*e,*e,*e,*e,*e]\n" +
+			"g: &g [*f,*f,*f,*f,*f,*f,*f,*f,*f]\n" +
+			"h: &h [*g,*g,*g,*g,*g,*g,*g,*g,*g]\n" +
+			"i: &i [*h,*h,*h,*h,*h,*h,*h,*h,*h]\n",
 		"yaml: document contains excessive aliasing",
 	},
 }
@@ -1436,7 +1435,10 @@ func (s *S) TestMergeStruct(c *C) {
 	}
 }
 
-var unmarshalNullTests = []struct{ input string; pristine, expected func() interface{} }{{
+var unmarshalNullTests = []struct {
+	input              string
+	pristine, expected func() interface{}
+}{{
 	"null",
 	func() interface{} { var v interface{}; v = "v"; return &v },
 	func() interface{} { var v interface{}; v = nil; return &v },
@@ -1487,7 +1489,7 @@ func (s *S) TestUnmarshalNull(c *C) {
 func (s *S) TestUnmarshalPreservesData(c *C) {
 	var v struct {
 		A, B int
-		C int `yaml:"-"`
+		C    int `yaml:"-"`
 	}
 	v.A = 42
 	v.C = 88
@@ -1644,16 +1646,16 @@ func (s *S) TestFuzzCrashers(c *C) {
 	}
 }
 
-//var data []byte
-//func init() {
+// var data []byte
+// func init() {
 //	var err error
 //	data, err = ioutil.ReadFile("/tmp/file.yaml")
 //	if err != nil {
 //		panic(err)
 //	}
-//}
+// }
 //
-//func (s *S) BenchmarkUnmarshal(c *C) {
+// func (s *S) BenchmarkUnmarshal(c *C) {
 //	var err error
 //	for i := 0; i < c.N; i++ {
 //		var v map[string]interface{}
@@ -1662,9 +1664,9 @@ func (s *S) TestFuzzCrashers(c *C) {
 //	if err != nil {
 //		panic(err)
 //	}
-//}
+// }
 //
-//func (s *S) BenchmarkMarshal(c *C) {
+// func (s *S) BenchmarkMarshal(c *C) {
 //	var v map[string]interface{}
 //	yaml.Unmarshal(data, &v)
 //	c.ResetTimer()

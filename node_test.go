@@ -18,12 +18,12 @@ package yaml_test
 import (
 	"bytes"
 	"fmt"
-	"os"
-
-	. "gopkg.in/check.v1"
-	"gopkg.in/yaml.v3"
 	"io"
+	"os"
 	"strings"
+
+	"github.com/turfaa/yaml"
+	. "gopkg.in/check.v1"
 )
 
 var nodeTests = []struct {
@@ -688,17 +688,17 @@ var nodeTests = []struct {
 					Line:        3,
 					Column:      4,
 				}, {
-					Kind:   yaml.ScalarNode,
-					Tag:    "!!str",
-					Value:  "c",
+					Kind:        yaml.ScalarNode,
+					Tag:         "!!str",
+					Value:       "c",
 					LineComment: "# IC",
-					Line:   5,
-					Column: 1,
+					Line:        5,
+					Column:      1,
 				}, {
-					Kind:        yaml.SequenceNode,
-					Tag:         "!!seq",
-					Line:        6,
-					Column:      3,
+					Kind:   yaml.SequenceNode,
+					Tag:    "!!seq",
+					Line:   6,
+					Column: 3,
 					Content: []*yaml.Node{{
 						Kind:   yaml.ScalarNode,
 						Tag:    "!!str",
@@ -707,17 +707,17 @@ var nodeTests = []struct {
 						Column: 5,
 					}},
 				}, {
-					Kind:   yaml.ScalarNode,
-					Tag:    "!!str",
-					Value:  "d",
+					Kind:        yaml.ScalarNode,
+					Tag:         "!!str",
+					Value:       "d",
 					LineComment: "# ID",
-					Line:   7,
-					Column: 1,
+					Line:        7,
+					Column:      1,
 				}, {
-					Kind:        yaml.MappingNode,
-					Tag:         "!!map",
-					Line:        8,
-					Column:      3,
+					Kind:   yaml.MappingNode,
+					Tag:    "!!map",
+					Line:   8,
+					Column: 3,
 					Content: []*yaml.Node{{
 						Kind:   yaml.ScalarNode,
 						Tag:    "!!str",
