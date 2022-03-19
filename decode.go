@@ -30,12 +30,13 @@ import (
 // Parser, produces a node tree out of a libyaml event stream.
 
 type parser struct {
-	parser   yaml_parser_t
-	event    yaml_event_t
-	doc      *Node
-	anchors  map[string]*Node
-	doneInit bool
-	textless bool
+	parser                 yaml_parser_t
+	event                  yaml_event_t
+	doc                    *Node
+	anchors                map[string]*Node
+	doneInit               bool
+	textless               bool
+	allowUnresolvedAliases bool
 }
 
 func newParser(b []byte) *parser {
@@ -211,7 +212,7 @@ func (p *parser) document() *Node {
 func (p *parser) alias() *Node {
 	n := p.node(AliasNode, "", "", string(p.event.anchor))
 	n.Alias = p.anchors[n.Value]
-	if n.Alias == nil {
+	if n.Alias == nil && !p.allowUnresolvedAliases {
 		failf("unknown anchor '%s' referenced", n.Value)
 	}
 	p.expect(yaml_ALIAS_EVENT)
@@ -320,6 +321,8 @@ type decoder struct {
 	decodeCount int
 	aliasCount  int
 	aliasDepth  int
+
+	allowUnresolvedAliases bool
 }
 
 var (
@@ -532,7 +535,11 @@ func (d *decoder) alias(n *Node, out reflect.Value) (good bool) {
 	}
 	d.aliases[n] = true
 	d.aliasDepth++
-	good = d.unmarshal(n.Alias, out)
+
+	if !(n.Alias == nil && d.allowUnresolvedAliases) {
+		good = d.unmarshal(n.Alias, out)
+	}
+
 	d.aliasDepth--
 	delete(d.aliases, n)
 	return good

@@ -25,8 +25,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/turfaa/yaml"
 	. "gopkg.in/check.v1"
+
+	"github.com/turfaa/yaml"
 )
 
 var unmarshalIntTest = 123
@@ -1644,6 +1645,27 @@ func (s *S) TestFuzzCrashers(c *C) {
 		var v interface{}
 		_ = yaml.Unmarshal([]byte(data), &v)
 	}
+}
+
+func (s *S) TestUnmarshalAllowUnresolvedAlias(c *C) {
+	data := `
+mapping:
+ <<: *NON_EXISTENT_ANCHOR
+ expected: "to success"
+`
+
+	var node yaml.Node
+	err := yaml.UnmarshalAllowUnresolvedAlias([]byte(data), &node)
+	c.Assert(err, IsNil)
+
+	b, err := yaml.Marshal(&node)
+	c.Assert(err, IsNil)
+
+	c.Assert(strings.Contains(string(b), "<<: *NON_EXISTENT_ANCHOR"), Equals, true)
+
+	// This data shouldn't be allowed in the normal Unmarshall.
+	err = yaml.Unmarshal([]byte(data), &node)
+	c.Assert(err, NotNil)
 }
 
 // var data []byte
