@@ -1,5 +1,18 @@
 # YAML support for the Go language
 
+Introduction from Turfa
+-----------------------
+This module is a fork of the [gopkg.in/yaml.v2](https://gopkg.in/yaml.v2) module.
+
+I have added a feature to the original module that I need for my project:
+- Add `UnmarsallAllowUnresolvedAlias` function 
+that allows unmarshalling of a YAML document that contains aliases that are not resolved (doesn't have a matching anchor).
+If an alias is not resolved, it will be ignored.
+
+I've also removed the semgrep workflow because it's failed, and I haven't found a way to fix it as I'm not familiar with it.
+
+This module is still in v0.y.z because it hasn't been fully tested.
+
 Introduction
 ------------
 
