@@ -2,7 +2,7 @@
 
 Introduction from Turfa
 -----------------------
-This module is a fork of the [gopkg.in/yaml.v2](https://gopkg.in/yaml.v2) module.
+This module is a fork of the [gopkg.in/yaml.v3](https://gopkg.in/yaml.v3) module.
 
 I have added a feature to the original module that I need for my project:
 - Add `UnmarsallAllowUnresolvedAlias` function 
